@@ -1,6 +1,7 @@
 package conn
 
 import (
+	"github.com/Asad2730/RentCar/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,8 +15,11 @@ func Connect() {
 		panic(err)
 	}
 
-	db.AutoMigrate)
-	db.AutoMigrate(&protobufModel.Product{})
-	db.AutoMigrate(&protobufModel.Cart{})
+	db.AutoMigrate(&models.Car{})
+	db.AutoMigrate(&models.BodyType{})
+	db.AutoMigrate(&models.Color{})
+	db.AutoMigrate(&models.EngineType{})
+	db.AutoMigrate(&models.Manufacturer{})
+	db.AutoMigrate(&models.Model{})
 	Db = db
 }

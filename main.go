@@ -1,13 +1,19 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Asad2730/RentCar/conn"
+	"github.com/Asad2730/RentCar/routes"
+	"github.com/gin-gonic/gin"
+)
+
+func init() {
+	conn.Connect()
+}
 
 func main() {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+	api := r.Group("/api")
+	car := api.Group("/car")
+	routes.CartRoutes(car)
+	r.Run("0.0.0.0:3000")
 }
