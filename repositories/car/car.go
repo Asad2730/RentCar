@@ -71,6 +71,7 @@ func GetCars(c *gin.Context) (*models.CarList, error) {
 	}).Find(&cars).Error; err != nil {
 		return nil, err
 	}
+
 	carList := &models.CarList{
 		Cars: cars,
 	}
