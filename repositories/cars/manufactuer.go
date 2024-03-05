@@ -35,7 +35,7 @@ func InsertManufacturer(c *gin.Context) error {
 		return err
 	}
 	body.Id = int32(count)
-	body.TimeStamp.CreatedAt = time.Now().String()
+	body.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&body).Error; err != nil {
 		return err
@@ -47,10 +47,10 @@ func InsertManufacturer(c *gin.Context) error {
 func GetManufacturer(c *gin.Context, id int32) (*models.Manufacturer, error) {
 
 	var body models.Manufacturer
-	if err := conn.Db.Where(&models.Manufacturer{Id: id,
-		TimeStamp: &models.TimeStamp{
-			DeletedAt: "",
-		}}).First(&body).Error; err != nil {
+	if err := conn.Db.Where(&models.Manufacturer{
+		Id:        id,
+		DeletedAt: "",
+	}).First(&body).Error; err != nil {
 		return nil, err
 	}
 
@@ -77,7 +77,7 @@ func UpdateManufacturer(c *gin.Context) (*models.Manufacturer, error) {
 		return nil, err
 	}
 
-	body.TimeStamp.UpdatedAt = time.Now().String()
+	body.UpdatedAt = time.Now().String()
 
 	if err := conn.Db.Save(&body).Error; err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func DeleteManufacturer(c *gin.Context) error {
 		return err
 	}
 
-	body.TimeStamp.DeletedAt = time.Now().String()
+	body.DeletedAt = time.Now().String()
 
 	if err := conn.Db.Save(&body).Error; err != nil {
 		return err

@@ -35,7 +35,7 @@ func InsertCar(c *gin.Context) error {
 		return err
 	}
 	car.Id = int32(count)
-	car.TimeStamp.CreatedAt = time.Now().String()
+	car.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&car).Error; err != nil {
 		return err
@@ -53,10 +53,10 @@ func GetCar(c *gin.Context) (*models.CarResult, error) {
 	}
 
 	var car models.Car
-	if err := conn.Db.Where(&models.Car{Id: id,
-		TimeStamp: &models.TimeStamp{
-			DeletedAt: "",
-		}}).First(&car).Error; err != nil {
+	if err := conn.Db.Where(&models.Car{
+		Id:        id,
+		DeletedAt: "",
+	}).First(&car).Error; err != nil {
 		return nil, err
 	}
 
@@ -71,9 +71,7 @@ func GetCar(c *gin.Context) (*models.CarResult, error) {
 func GetCars(c *gin.Context) (*models.CarList, error) {
 	var cars []*models.Car
 	if err := conn.Db.Where(&models.Car{
-		TimeStamp: &models.TimeStamp{
-			DeletedAt: "",
-		},
+		DeletedAt: "",
 	}).Find(&cars).Error; err != nil {
 		return nil, err
 	}
@@ -110,7 +108,7 @@ func UpdateCar(c *gin.Context) (*models.Car, error) {
 		return nil, err
 	}
 
-	car.TimeStamp.UpdatedAt = time.Now().String()
+	car.UpdatedAt = time.Now().String()
 
 	if err := conn.Db.Save(&car).Error; err != nil {
 		return nil, err
@@ -138,7 +136,7 @@ func DeleteCar(c *gin.Context) error {
 		return err
 	}
 
-	car.TimeStamp.DeletedAt = time.Now().String()
+	car.DeletedAt = time.Now().String()
 
 	if err := conn.Db.Save(&car).Error; err != nil {
 		return err

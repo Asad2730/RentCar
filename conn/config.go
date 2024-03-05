@@ -15,11 +15,10 @@ func Connect() {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&models.Car{})
-	db.AutoMigrate(&models.BodyType{})
-	db.AutoMigrate(&models.Color{})
-	db.AutoMigrate(&models.EngineType{})
-	db.AutoMigrate(&models.Manufacturer{})
-	db.AutoMigrate(&models.Model{})
+	db.AutoMigrate(&models.Car{}, &models.BodyType{}, &models.Color{},
+		&models.EngineType{}, &models.Manufacturer{}, &models.Model{})
+
+	db.AutoMigrate(&models.Driver{}, &models.Address{}, &models.Document{}, &models.DocumentType{})
+
 	Db = db
 }
