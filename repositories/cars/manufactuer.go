@@ -48,7 +48,7 @@ func GetManufacturer(c *gin.Context, id int32) (*models.Manufacturer, error) {
 
 	var body models.Manufacturer
 	if err := conn.Db.Where(&models.Manufacturer{
-		Id:        id,
+		CarId:     id,
 		DeletedAt: "",
 	}).First(&body).Error; err != nil {
 		return nil, err

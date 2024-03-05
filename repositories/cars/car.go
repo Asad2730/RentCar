@@ -145,27 +145,27 @@ func DeleteCar(c *gin.Context) error {
 }
 
 func GetCarResults(c *gin.Context, car *models.Car) (*models.CarResult, error) {
-	model, err := GetModel(c, car.ModelId)
+	model, err := GetModel(c, car.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	manufacturer, err := GetManufacturer(c, car.ManufacturerId)
+	manufacturer, err := GetManufacturer(c, car.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	color, err := GetColor(c, car.ColorId)
+	color, err := GetColor(c, car.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	bodyType, err := GetBodyType(c, car.BodyTypeId)
+	bodyType, err := GetBodyType(c, car.Id)
 	if err != nil {
 		return nil, err
 	}
 
-	engineType, err := GetEngineType(c, car.EngineTypeId)
+	engineType, err := GetEngineType(c, car.Id)
 	if err != nil {
 		return nil, err
 	}

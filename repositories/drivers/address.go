@@ -48,7 +48,7 @@ func GetAddress(c *gin.Context, id int32) (*models.Address, error) {
 
 	var address models.Address
 	if err := conn.Db.Where(&models.Address{
-		Id:        id,
+		DriverId:  id,
 		DeletedAt: "",
 	}).First(&address).Error; err != nil {
 		return nil, err

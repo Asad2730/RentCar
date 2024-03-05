@@ -48,7 +48,7 @@ func GetDocumentResult(c *gin.Context, id int32) (*models.DocumentResult, error)
 
 	var document models.Document
 	if err := conn.Db.Where(&models.Document{
-		Id:        id,
+		DriverId:  id,
 		DeletedAt: "",
 	}).First(&document).Error; err != nil {
 		return nil, err

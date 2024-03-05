@@ -48,7 +48,7 @@ func GetColor(c *gin.Context, id int32) (*models.Color, error) {
 
 	var body models.Color
 	if err := conn.Db.Where(&models.Color{
-		Id:        id,
+		CarId:     id,
 		DeletedAt: "",
 	}).First(&body).Error; err != nil {
 		return nil, err

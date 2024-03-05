@@ -48,7 +48,7 @@ func GetBodyType(c *gin.Context, id int32) (*models.BodyType, error) {
 
 	var body models.BodyType
 	if err := conn.Db.Where(&models.BodyType{
-		Id:        id,
+		CarId:     id,
 		DeletedAt: "",
 	}).First(&body).Error; err != nil {
 		return nil, err

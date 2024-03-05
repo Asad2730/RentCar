@@ -48,7 +48,7 @@ func GetEngineType(c *gin.Context, id int32) (*models.EngineType, error) {
 
 	var body models.EngineType
 	if err := conn.Db.Where(&models.EngineType{
-		Id:        id,
+		CarId:     id,
 		DeletedAt: "",
 	}).First(&body).Error; err != nil {
 		return nil, err

@@ -30,7 +30,7 @@ func InsertModel(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetCarCount()
+	count, err := GetModelCount()
 	if err != nil {
 		return err
 	}
@@ -47,8 +47,8 @@ func InsertModel(c *gin.Context) error {
 func GetModel(c *gin.Context, id int32) (*models.Model, error) {
 
 	var body models.Model
-	if err := conn.Db.Where(&models.Car{
-		Id:        id,
+	if err := conn.Db.Where(&models.Model{
+		CarId:     id,
 		DeletedAt: "",
 	}).First(&body).Error; err != nil {
 		return nil, err

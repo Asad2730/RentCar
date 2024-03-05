@@ -146,11 +146,11 @@ func DeleteDriver(c *gin.Context) error {
 
 func GetDriverResults(c *gin.Context, driver *models.Driver) (*models.DriverResult, error) {
 
-	address, err := GetAddress(c, driver.AddressId)
+	address, err := GetAddress(c, driver.Id)
 	if err != nil {
 		return nil, err
 	}
-	documnetResult, err := GetDocumentResult(c, driver.DocumentId)
+	documnetResult, err := GetDocumentResult(c, driver.Id)
 	if err != nil {
 		return nil, err
 	}
