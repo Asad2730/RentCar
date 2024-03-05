@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	"github.com/Asad2730/RentCar/repositories/car"
+	"github.com/Asad2730/RentCar/repositories/cars"
 	"github.com/Asad2730/RentCar/repositories/response"
 	"github.com/gin-gonic/gin"
 )
 
 func InsertCar(c *gin.Context) {
 
-	if err := car.InsertCar(c); err != nil {
+	if err := cars.InsertCar(c); err != nil {
 		c.ProtoBuf(500, response.GetResponse(err.Error()))
 		return
 	}
@@ -17,7 +17,7 @@ func InsertCar(c *gin.Context) {
 }
 
 func GetCar(c *gin.Context) {
-	res, err := car.GetCar(c)
+	res, err := cars.GetCar(c)
 	if err != nil {
 		c.ProtoBuf(500, response.GetResponse(err.Error()))
 		return
@@ -26,7 +26,7 @@ func GetCar(c *gin.Context) {
 }
 
 func GetCars(c *gin.Context) {
-	res, err := car.GetCars(c)
+	res, err := cars.GetCars(c)
 	if err != nil {
 		c.ProtoBuf(500, response.GetResponse(err.Error()))
 		return
@@ -35,7 +35,7 @@ func GetCars(c *gin.Context) {
 }
 
 func UpdateCar(c *gin.Context) {
-	res, err := car.UpdateCar(c)
+	res, err := cars.UpdateCar(c)
 	if err != nil {
 		c.ProtoBuf(500, response.GetResponse(err.Error()))
 		return
@@ -45,7 +45,7 @@ func UpdateCar(c *gin.Context) {
 
 func DeleteCar(c *gin.Context) {
 
-	if err := car.DeleteCar(c); err != nil {
+	if err := cars.DeleteCar(c); err != nil {
 		c.ProtoBuf(500, response.GetResponse(err.Error()))
 		return
 	}

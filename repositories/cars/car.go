@@ -1,4 +1,4 @@
-package car
+package cars
 
 import (
 	"time"
@@ -44,7 +44,8 @@ func InsertCar(c *gin.Context) error {
 	return nil
 }
 
-func GetCar(c *gin.Context) (*models.Car, error) {
+func GetCar(c *gin.Context) (*models.CarResult, error) {
+
 	id, err := repositories.ConvertToInt32(c.Param("id"))
 
 	if err != nil {
@@ -59,7 +60,12 @@ func GetCar(c *gin.Context) (*models.Car, error) {
 		return nil, err
 	}
 
-	return &car, nil
+	carResult, err := GetCarResults(c, &car)
+
+	if err != nil {
+		return nil, err
+	}
+	return carResult, nil
 }
 
 func GetCars(c *gin.Context) (*models.CarList, error) {
@@ -71,9 +77,14 @@ func GetCars(c *gin.Context) (*models.CarList, error) {
 	}).Find(&cars).Error; err != nil {
 		return nil, err
 	}
+	carList := &models.CarList{}
 
-	carList := &models.CarList{
-		Cars: cars,
+	for _, car := range cars {
+		carResult, err := GetCarResults(c, car)
+		if err != nil {
+			return nil, err
+		}
+		carList.Cars = append(carList.Cars, carResult)
 	}
 
 	return carList, nil
@@ -133,4 +144,42 @@ func DeleteCar(c *gin.Context) error {
 		return err
 	}
 	return nil
+}
+
+func GetCarResults(c *gin.Context, car *models.Car) (*models.CarResult, error) {
+	model, err := GetModel(c, car.ModelId)
+	if err != nil {
+		return nil, err
+	}
+
+	manufacturer, err := GetManufacturer(c, car.ManufacturerId)
+	if err != nil {
+		return nil, err
+	}
+
+	color, err := GetColor(c, car.ColorId)
+	if err != nil {
+		return nil, err
+	}
+
+	bodyType, err := GetBodyType(c, car.BodyTypeId)
+	if err != nil {
+		return nil, err
+	}
+
+	engineType, err := GetEngineType(c, car.EngineTypeId)
+	if err != nil {
+		return nil, err
+	}
+
+	carResult := &models.CarResult{
+		Car:          car,
+		Model:        model,
+		Manufacturer: manufacturer,
+		Color:        color,
+		BodyType:     bodyType,
+		EngineType:   engineType,
+	}
+
+	return carResult, nil
 }
