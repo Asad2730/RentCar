@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetAddressCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.Address{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertAddress(c *gin.Context) error {
 	var address models.Address
 
@@ -30,11 +22,6 @@ func InsertAddress(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetAddressCount()
-	if err != nil {
-		return err
-	}
-	address.Id = int32(count)
 	address.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&address).Error; err != nil {

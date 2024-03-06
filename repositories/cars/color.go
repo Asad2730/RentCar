@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetColorCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.Color{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertColor(c *gin.Context) error {
 	var body models.Color
 
@@ -30,11 +22,6 @@ func InsertColor(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetColorCount()
-	if err != nil {
-		return err
-	}
-	body.Id = int32(count)
 	body.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&body).Error; err != nil {

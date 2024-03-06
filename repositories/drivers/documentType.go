@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetDocumentTypeCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.DocumentType{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertDocumentType(c *gin.Context) error {
 	var docType models.DocumentType
 
@@ -30,11 +22,6 @@ func InsertDocumentType(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetDocumentTypeCount()
-	if err != nil {
-		return err
-	}
-	docType.Id = int32(count)
 	docType.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&docType).Error; err != nil {

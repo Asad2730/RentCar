@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetModelCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.Model{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertModel(c *gin.Context) error {
 	var body models.Model
 
@@ -30,11 +22,6 @@ func InsertModel(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetModelCount()
-	if err != nil {
-		return err
-	}
-	body.Id = int32(count)
 	body.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&body).Error; err != nil {

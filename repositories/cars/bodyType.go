@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetBodyTypeCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.BodyType{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertBodyType(c *gin.Context) error {
 	var body models.BodyType
 
@@ -30,11 +22,6 @@ func InsertBodyType(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetBodyTypeCount()
-	if err != nil {
-		return err
-	}
-	body.Id = int32(count)
 	body.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&body).Error; err != nil {

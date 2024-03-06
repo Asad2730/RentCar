@@ -10,14 +10,6 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-func GetCarCount() (int, error) {
-	var count int64
-	if err := conn.Db.Model(&models.Car{}).Count(&count).Error; err != nil {
-		return 0, err
-	}
-	return int(count), nil
-}
-
 func InsertCar(c *gin.Context) error {
 	var car models.Car
 
@@ -30,11 +22,6 @@ func InsertCar(c *gin.Context) error {
 		return err
 	}
 
-	count, err := GetCarCount()
-	if err != nil {
-		return err
-	}
-	car.Id = int32(count)
 	car.CreatedAt = time.Now().String()
 
 	if err := conn.Db.Create(&car).Error; err != nil {
