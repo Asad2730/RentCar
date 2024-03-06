@@ -52,6 +52,7 @@ func GetCar(c *gin.Context) (*models.CarResult, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return carResult, nil
 }
 

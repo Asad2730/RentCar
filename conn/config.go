@@ -20,5 +20,8 @@ func Connect() {
 
 	db.AutoMigrate(&models.Driver{}, &models.Address{}, &models.Document{}, &models.DocumentType{})
 
+	db.AutoMigrate(&models.BookingRequest{}, &models.BookingClosing{},
+		&models.BookingFeedBack{}, &models.BookingDetail{})
+
 	Db = db
 }
