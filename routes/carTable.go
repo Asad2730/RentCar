@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CartRoutes(r *gin.RouterGroup) {
+func CarRoutes(r *gin.RouterGroup) {
 	r.GET("/", handlers.GetCars)
 	r.POST("/", handlers.InsertCar)
 	r.GET("/:id", handlers.GetCar)

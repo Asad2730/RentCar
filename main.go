@@ -20,7 +20,7 @@ func main() {
 		group  *gin.RouterGroup
 		routes func(*gin.RouterGroup)
 	}{
-		{"/car", api.Group("/car"), routes.CartRoutes},
+		{"/car", api.Group("/car"), routes.CarRoutes},
 		{"/bodytype", api.Group("/bodytype"), routes.BodyTypeRoutes},
 		{"/color", api.Group("/color"), routes.ColorRoutes},
 		{"/engine", api.Group("/engine"), routes.EngineRoutes},
@@ -30,6 +30,11 @@ func main() {
 		{"/address", api.Group("/address"), routes.AddressRoutes},
 		{"/document", api.Group("/document"), routes.DocumentRoutes},
 		{"/documentType", api.Group("/documentType"), routes.DocumentTypeRoutes},
+		{"/booking", api.Group("/booking"), routes.Booking},
+		{"/bookingRequest", api.Group("/bookingRequest"), routes.BookingRequestRoutes},
+		{"/bookingClosing", api.Group("/bookingClosing"), routes.BookingClosingRoutes},
+		{"/bookingDetail", api.Group("/bookingDetail"), routes.BookingDetailRoutes},
+		{"/bookingFeedBack", api.Group("/bookingFeedBack"), routes.BookingFeedbackRoutes},
 	}
 
 	for _, rg := range routeGroup {

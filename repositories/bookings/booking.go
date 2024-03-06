@@ -7,9 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// see which model our hich id should be passed in them...
-// Booking id is of BookingRequest Table so just use that..
-
 func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 
 	id, err := repositories.ConvertToInt32(c.Param("id"))
@@ -18,15 +15,13 @@ func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 		return nil, err
 	}
 
-	var bookingRequest models.BookingRequest
-	if err := conn.Db.Where(&models.BookingRequest{
-		Id:        id,
-		DeletedAt: "",
-	}).First(&bookingRequest).Error; err != nil {
+	bookingRequest, err := GetBookingRequest(c, id)
+
+	if err != nil {
 		return nil, err
 	}
 
-	bookingRequestResult, err := GetBookingRequestResults(c, &bookingRequest)
+	bookingRequestResult, err := GetBookingRequestResults(c, bookingRequest)
 
 	if err != nil {
 		return nil, err
@@ -36,6 +31,7 @@ func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 }
 
 func GetBookings(c *gin.Context) (*models.BookingList, error) {
+
 	var bookingRequests []*models.BookingRequest
 	if err := conn.Db.Where(&models.BookingRequest{
 		DeletedAt: "",
@@ -55,7 +51,32 @@ func GetBookings(c *gin.Context) (*models.BookingList, error) {
 	return bookingRequestList, nil
 }
 
-// make get functions in others aswell...
-func GetBookingRequestResults(c *gin.Context, bookingRequest *models.BookingRequest) (*models.BookingResult, error) {
-	return nil, nil
+func GetBookingRequestResults(c *gin.Context, request *models.BookingRequest) (*models.BookingResult, error) {
+
+	closing, err := GetBookingClosing(c, request.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	detail, err := GetBookingDetail(c, request.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	feedback, err := GetBookingFeedBack(c, request.Id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	bookingResult := &models.BookingResult{
+		BookingRequest:  request,
+		BookingClosing:  closing,
+		BookingDetail:   detail,
+		BookingFeedBack: feedback,
+	}
+
+	return bookingResult, nil
 }

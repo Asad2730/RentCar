@@ -31,6 +31,19 @@ func InsertBookingRequest(c *gin.Context) error {
 	return nil
 }
 
+func GetBookingRequest(c *gin.Context, id int32) (*models.BookingRequest, error) {
+
+	var body models.BookingRequest
+	if err := conn.Db.Where(&models.BookingRequest{
+		Id:        id,
+		DeletedAt: "",
+	}).First(&body).Error; err != nil {
+		return nil, err
+	}
+
+	return &body, nil
+}
+
 func UpdateBookingRequest(c *gin.Context) (*models.BookingRequest, error) {
 	id, err := repositories.ConvertToInt32(c.Param("id"))
 	if err != nil {
