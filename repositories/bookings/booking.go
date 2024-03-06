@@ -8,6 +8,8 @@ import (
 )
 
 // see which model our hich id should be passed in them...
+// Booking id is of BookingRequest Table so just use that..
+
 func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 
 	id, err := repositories.ConvertToInt32(c.Param("id"))
@@ -53,6 +55,7 @@ func GetBookings(c *gin.Context) (*models.BookingList, error) {
 	return bookingRequestList, nil
 }
 
+// make get functions in others aswell...
 func GetBookingRequestResults(c *gin.Context, bookingRequest *models.BookingRequest) (*models.BookingResult, error) {
 	return nil, nil
 }
