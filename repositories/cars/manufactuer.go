@@ -34,10 +34,10 @@ func InsertManufacturer(c *gin.Context) error {
 func GetManufacturer(c *gin.Context, id int32) (*models.Manufacturer, error) {
 
 	var body models.Manufacturer
-	if err := conn.Db.Where(&models.Manufacturer{
+	if err := conn.Db.First(&body, &models.Manufacturer{
 		CarId:     id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateManufacturer(c *gin.Context) (*models.Manufacturer, error) {
 	}
 
 	var body models.Manufacturer
-	if err := conn.Db.Where(&models.Manufacturer{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Manufacturer{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteManufacturer(c *gin.Context) error {
 	}
 
 	var body models.Manufacturer
-	if err := conn.Db.Where(&models.Manufacturer{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Manufacturer{Id: id}).Error; err != nil {
 		return err
 	}
 

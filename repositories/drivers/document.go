@@ -34,10 +34,10 @@ func InsertDocument(c *gin.Context) error {
 func GetDocumentResult(c *gin.Context, id int32) (*models.DocumentResult, error) {
 
 	var document models.Document
-	if err := conn.Db.Where(&models.Document{
+	if err := conn.Db.First(&document, &models.Document{
 		DriverId:  id,
 		DeletedAt: "",
-	}).First(&document).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -61,7 +61,7 @@ func UpdateDocument(c *gin.Context) (*models.Document, error) {
 	}
 
 	var document models.Document
-	if err := conn.Db.Where(&models.Document{Id: id}).First(&document).Error; err != nil {
+	if err := conn.Db.First(&document, &models.Document{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -89,7 +89,7 @@ func DeleteDocument(c *gin.Context) error {
 	}
 
 	var document models.Document
-	if err := conn.Db.Where(&models.Document{Id: id}).First(&document).Error; err != nil {
+	if err := conn.Db.First(&document, &models.Document{Id: id}).Error; err != nil {
 		return err
 	}
 

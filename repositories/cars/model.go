@@ -34,10 +34,10 @@ func InsertModel(c *gin.Context) error {
 func GetModel(c *gin.Context, id int32) (*models.Model, error) {
 
 	var body models.Model
-	if err := conn.Db.Where(&models.Model{
+	if err := conn.Db.First(&body, &models.Model{
 		CarId:     id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateModel(c *gin.Context) (*models.Model, error) {
 	}
 
 	var body models.Model
-	if err := conn.Db.Where(&models.Model{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Model{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteModel(c *gin.Context) error {
 	}
 
 	var body models.Model
-	if err := conn.Db.Where(&models.Model{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Model{Id: id}).Error; err != nil {
 		return err
 	}
 

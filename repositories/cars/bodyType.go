@@ -34,10 +34,10 @@ func InsertBodyType(c *gin.Context) error {
 func GetBodyType(c *gin.Context, id int32) (*models.BodyType, error) {
 
 	var body models.BodyType
-	if err := conn.Db.Where(&models.BodyType{
+	if err := conn.Db.First(&body, &models.BodyType{
 		CarId:     id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateBodyType(c *gin.Context) (*models.BodyType, error) {
 	}
 
 	var body models.BodyType
-	if err := conn.Db.Where(&models.BodyType{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.BodyType{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteBodyType(c *gin.Context) error {
 	}
 
 	var body models.BodyType
-	if err := conn.Db.Where(&models.BodyType{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.BodyType{Id: id}).Error; err != nil {
 		return err
 	}
 

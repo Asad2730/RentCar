@@ -33,10 +33,10 @@ func InsertBookingFeedback(c *gin.Context) error {
 func GetBookingFeedBack(c *gin.Context, id int32) (*models.BookingFeedBack, error) {
 
 	var body models.BookingFeedBack
-	if err := conn.Db.Where(&models.BookingFeedBack{
+	if err := conn.Db.First(&body, &models.BookingFeedBack{
 		BookingId: id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -50,7 +50,7 @@ func UpdateBookingFeedback(c *gin.Context) (*models.BookingFeedBack, error) {
 	}
 
 	var bookingFeedback models.BookingFeedBack
-	if err := conn.Db.Where(&models.BookingFeedBack{Id: id}).First(&bookingFeedback).Error; err != nil {
+	if err := conn.Db.First(&bookingFeedback, &models.BookingFeedBack{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -78,7 +78,7 @@ func DeleteBookingFeedback(c *gin.Context) error {
 	}
 
 	var bookingFeedback models.BookingFeedBack
-	if err := conn.Db.Where(&models.BookingFeedBack{Id: id}).First(&bookingFeedback).Error; err != nil {
+	if err := conn.Db.First(&bookingFeedback, &models.BookingFeedBack{Id: id}).Error; err != nil {
 		return err
 	}
 

@@ -34,10 +34,10 @@ func InsertColor(c *gin.Context) error {
 func GetColor(c *gin.Context, id int32) (*models.Color, error) {
 
 	var body models.Color
-	if err := conn.Db.Where(&models.Color{
+	if err := conn.Db.First(&body, &models.Color{
 		CarId:     id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateColor(c *gin.Context) (*models.Color, error) {
 	}
 
 	var body models.Color
-	if err := conn.Db.Where(&models.Color{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Color{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteColor(c *gin.Context) error {
 	}
 
 	var body models.Color
-	if err := conn.Db.Where(&models.Color{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.Color{Id: id}).Error; err != nil {
 		return err
 	}
 

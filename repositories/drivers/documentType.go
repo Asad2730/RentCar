@@ -34,10 +34,10 @@ func InsertDocumentType(c *gin.Context) error {
 func GetDocumentType(c *gin.Context, id int32) (*models.DocumentType, error) {
 
 	var docType models.DocumentType
-	if err := conn.Db.Where(&models.DocumentType{
+	if err := conn.Db.First(&docType, &models.DocumentType{
 		Id:        id,
 		DeletedAt: "",
-	}).First(&docType).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -47,9 +47,9 @@ func GetDocumentType(c *gin.Context, id int32) (*models.DocumentType, error) {
 func GetDocumentsType(c *gin.Context) (*models.DocumentTypeList, error) {
 
 	var docTypes []*models.DocumentType
-	if err := conn.Db.Where(&models.DocumentType{
+	if err := conn.Db.Find(&docTypes, &models.DocumentType{
 		DeletedAt: "",
-	}).Find(&docTypes).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -66,7 +66,7 @@ func UpdateDocumentType(c *gin.Context) (*models.DocumentType, error) {
 	}
 
 	var docType models.DocumentType
-	if err := conn.Db.Where(&models.DocumentType{Id: id}).First(&docType).Error; err != nil {
+	if err := conn.Db.First(&docType, &models.DocumentType{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -94,7 +94,7 @@ func DeleteDocumentType(c *gin.Context) error {
 	}
 
 	var docType models.DocumentType
-	if err := conn.Db.Where(&models.DocumentType{Id: id}).First(&docType).Error; err != nil {
+	if err := conn.Db.First(&docType, &models.DocumentType{Id: id}).Error; err != nil {
 		return err
 	}
 

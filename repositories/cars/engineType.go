@@ -34,10 +34,10 @@ func InsertEngineType(c *gin.Context) error {
 func GetEngineType(c *gin.Context, id int32) (*models.EngineType, error) {
 
 	var body models.EngineType
-	if err := conn.Db.Where(&models.EngineType{
+	if err := conn.Db.First(&body, &models.EngineType{
 		CarId:     id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateEngineType(c *gin.Context) (*models.EngineType, error) {
 	}
 
 	var body models.EngineType
-	if err := conn.Db.Where(&models.EngineType{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.EngineType{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteEngineType(c *gin.Context) error {
 	}
 
 	var body models.EngineType
-	if err := conn.Db.Where(&models.EngineType{Id: id}).First(&body).Error; err != nil {
+	if err := conn.Db.First(&body, &models.EngineType{Id: id}).Error; err != nil {
 		return err
 	}
 

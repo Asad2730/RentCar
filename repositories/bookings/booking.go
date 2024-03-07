@@ -15,13 +15,13 @@ func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 		return nil, err
 	}
 
-	bookingRequest, err := GetBookingRequest(c, id)
+	bookingRequest, err := GetBookingRequest(id)
 
 	if err != nil {
 		return nil, err
 	}
 
-	bookingRequestResult, err := GetBookingRequestResults(c, bookingRequest)
+	bookingRequestResult, err := getBookingRequestResults(c, bookingRequest)
 
 	if err != nil {
 		return nil, err
@@ -30,18 +30,66 @@ func GetBooking(c *gin.Context) (*models.BookingResult, error) {
 	return bookingRequestResult, nil
 }
 
+func GetBookingByBoId(c *gin.Context) (*models.BookingList, error) {
+	id, err := repositories.ConvertToInt32(c.Param("boId"))
+
+	if err != nil {
+		return nil, err
+	}
+	bookingRequests, err := GetBookingRequestByBoId(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	bookingRequestList, err := populateBookingList(c, bookingRequests)
+	if err != nil {
+		return nil, err
+	}
+
+	return bookingRequestList, nil
+
+}
+
+func GetBookingByUserId(c *gin.Context) (*models.BookingList, error) {
+	id, err := repositories.ConvertToInt32(c.Param("userId"))
+
+	if err != nil {
+		return nil, err
+	}
+	bookingRequests, err := GetBookingRequestByUserId(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	bookingRequestList, err := populateBookingList(c, bookingRequests)
+	if err != nil {
+		return nil, err
+	}
+
+	return bookingRequestList, nil
+
+}
+
 func GetBookings(c *gin.Context) (*models.BookingList, error) {
 
 	var bookingRequests []*models.BookingRequest
-	if err := conn.Db.Where(&models.BookingRequest{
-		DeletedAt: "",
-	}).Find(&bookingRequests).Error; err != nil {
+	if err := conn.Db.Find(&bookingRequests, &models.BookingRequest{DeletedAt: ""}).Error; err != nil {
 		return nil, err
 	}
-	bookingRequestList := &models.BookingList{}
+	bookingRequestList, err := populateBookingList(c, bookingRequests)
+	if err != nil {
+		return nil, err
+	}
+	return bookingRequestList, nil
+}
 
+func populateBookingList(c *gin.Context, bookingRequests []*models.BookingRequest) (*models.BookingList, error) {
+
+	bookingRequestList := &models.BookingList{}
 	for _, bookingRequest := range bookingRequests {
-		bookingRequestResult, err := GetBookingRequestResults(c, bookingRequest)
+		bookingRequestResult, err := getBookingRequestResults(c, bookingRequest)
 		if err != nil {
 			return nil, err
 		}
@@ -51,7 +99,7 @@ func GetBookings(c *gin.Context) (*models.BookingList, error) {
 	return bookingRequestList, nil
 }
 
-func GetBookingRequestResults(c *gin.Context, request *models.BookingRequest) (*models.BookingResult, error) {
+func getBookingRequestResults(c *gin.Context, request *models.BookingRequest) (*models.BookingResult, error) {
 
 	closing, err := GetBookingClosing(c, request.Id)
 

@@ -33,10 +33,10 @@ func InsertBookingClosing(c *gin.Context) error {
 func GetBookingClosing(c *gin.Context, id int32) (*models.BookingClosing, error) {
 
 	var body models.BookingClosing
-	if err := conn.Db.Where(&models.BookingClosing{
+	if err := conn.Db.First(&body, &models.BookingClosing{
 		BookingId: id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -50,7 +50,7 @@ func UpdateBookingClosing(c *gin.Context) (*models.BookingClosing, error) {
 	}
 
 	var bookingClosing models.BookingClosing
-	if err := conn.Db.Where(&models.BookingClosing{Id: id}).First(&bookingClosing).Error; err != nil {
+	if err := conn.Db.First(&bookingClosing, &models.BookingClosing{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -78,7 +78,7 @@ func DeleteBookingClosing(c *gin.Context) error {
 	}
 
 	var bookingClosing models.BookingClosing
-	if err := conn.Db.Where(&models.BookingClosing{Id: id}).First(&bookingClosing).Error; err != nil {
+	if err := conn.Db.First(&bookingClosing, &models.BookingClosing{Id: id}).Error; err != nil {
 		return err
 	}
 

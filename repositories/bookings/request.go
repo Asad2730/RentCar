@@ -10,6 +10,14 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+func getBookingRequest(condition *models.BookingRequest) ([]*models.BookingRequest, error) {
+	var body []*models.BookingRequest
+	if err := conn.Db.Find(&body, condition).Error; err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
 func InsertBookingRequest(c *gin.Context) error {
 	var bookingRequest models.BookingRequest
 
@@ -31,17 +39,35 @@ func InsertBookingRequest(c *gin.Context) error {
 	return nil
 }
 
-func GetBookingRequest(c *gin.Context, id int32) (*models.BookingRequest, error) {
+func GetBookingRequest(id int32) (*models.BookingRequest, error) {
 
 	var body models.BookingRequest
-	if err := conn.Db.Where(&models.BookingRequest{
+	if err := conn.Db.First(&body, &models.BookingRequest{
 		Id:        id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
 	return &body, nil
+}
+
+func GetBookingRequestByBoId(id int32) ([]*models.BookingRequest, error) {
+
+	body, err := getBookingRequest(&models.BookingRequest{BoId: id, DeletedAt: ""})
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
+}
+
+func GetBookingRequestByUserId(id int32) ([]*models.BookingRequest, error) {
+
+	body, err := getBookingRequest(&models.BookingRequest{UserId: id, DeletedAt: ""})
+	if err != nil {
+		return nil, err
+	}
+	return body, nil
 }
 
 func UpdateBookingRequest(c *gin.Context) (*models.BookingRequest, error) {
@@ -51,7 +77,7 @@ func UpdateBookingRequest(c *gin.Context) (*models.BookingRequest, error) {
 	}
 
 	var bookingRequest models.BookingRequest
-	if err := conn.Db.Where(&models.BookingRequest{Id: id}).First(&bookingRequest).Error; err != nil {
+	if err := conn.Db.First(&bookingRequest, &models.BookingRequest{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +105,7 @@ func DeleteBookingRequest(c *gin.Context) error {
 	}
 
 	var bookingRequest models.BookingRequest
-	if err := conn.Db.Where(&models.BookingRequest{Id: id}).First(&bookingRequest).Error; err != nil {
+	if err := conn.Db.First(&bookingRequest, &models.BookingRequest{Id: id}).Error; err != nil {
 		return err
 	}
 

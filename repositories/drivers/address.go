@@ -34,10 +34,10 @@ func InsertAddress(c *gin.Context) error {
 func GetAddress(c *gin.Context, id int32) (*models.Address, error) {
 
 	var address models.Address
-	if err := conn.Db.Where(&models.Address{
+	if err := conn.Db.First(&address, &models.Address{
 		DriverId:  id,
 		DeletedAt: "",
-	}).First(&address).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func UpdateAddress(c *gin.Context) (*models.Address, error) {
 	}
 
 	var address models.Address
-	if err := conn.Db.Where(&models.Address{Id: id}).First(&address).Error; err != nil {
+	if err := conn.Db.First(&address, &models.Address{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -79,7 +79,7 @@ func DeleteAddress(c *gin.Context) error {
 	}
 
 	var address models.Address
-	if err := conn.Db.Where(&models.Address{Id: id}).First(&address).Error; err != nil {
+	if err := conn.Db.First(&address, &models.Address{Id: id}).Error; err != nil {
 		return err
 	}
 

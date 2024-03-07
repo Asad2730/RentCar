@@ -40,10 +40,10 @@ func GetDriver(c *gin.Context) (*models.DriverResult, error) {
 	}
 
 	var body models.Driver
-	if err := conn.Db.Where(&models.Driver{
+	if err := conn.Db.First(&body, &models.Driver{
 		Id:        id,
 		DeletedAt: "",
-	}).First(&body).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 
@@ -57,9 +57,9 @@ func GetDriver(c *gin.Context) (*models.DriverResult, error) {
 
 func GetDrivers(c *gin.Context) (*models.DriverList, error) {
 	var drivers []*models.Driver
-	if err := conn.Db.Where(&models.Driver{
+	if err := conn.Db.Find(&drivers, &models.Driver{
 		DeletedAt: "",
-	}).Find(&drivers).Error; err != nil {
+	}).Error; err != nil {
 		return nil, err
 	}
 	driverList := &models.DriverList{}
@@ -82,7 +82,7 @@ func UpdateDriver(c *gin.Context) (*models.Driver, error) {
 	}
 
 	var driver models.Driver
-	if err := conn.Db.Where(&models.Driver{Id: id}).First(&driver).Error; err != nil {
+	if err := conn.Db.First(&driver, &models.Driver{Id: id}).Error; err != nil {
 		return nil, err
 	}
 
@@ -110,7 +110,7 @@ func DeleteDriver(c *gin.Context) error {
 	}
 
 	var driver models.Driver
-	if err := conn.Db.Where(&models.Car{Id: id}).First(&driver).Error; err != nil {
+	if err := conn.Db.First(&driver, &models.Car{Id: id}).Error; err != nil {
 		return err
 	}
 
