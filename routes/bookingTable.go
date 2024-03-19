@@ -9,7 +9,7 @@ func Booking(r *gin.RouterGroup) {
 	r.GET("/", handlers.GetBookings)
 	r.GET("/:id", handlers.GetBooking)
 	r.GET("/boId/:boId", handlers.GetBooking)
-	r.GET("/userId/:userId", handlers.GetBooking)
+	r.GET("/customerId/:customerId", handlers.GetBookingByCustomerId)
 }
 
 func BookingRequestRoutes(r *gin.RouterGroup) {

@@ -35,6 +35,7 @@ func main() {
 		{"/bookingClosing", api.Group("/bookingClosing"), routes.BookingClosingRoutes},
 		{"/bookingDetail", api.Group("/bookingDetail"), routes.BookingDetailRoutes},
 		{"/bookingFeedBack", api.Group("/bookingFeedBack"), routes.BookingFeedbackRoutes},
+		{"/Customer", api.Group("/Customer"), routes.CustomerRoutes},
 	}
 
 	for _, rg := range routeGroup {

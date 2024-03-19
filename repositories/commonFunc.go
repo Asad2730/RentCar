@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"io"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 func ReadRequest(body io.ReadCloser) ([]byte, error) {
@@ -21,4 +23,11 @@ func ConvertToInt32(id string) (int32, error) {
 	}
 
 	return int32(idInt), nil
+}
+
+func RandomFiveDigitNumber() int {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+	min := 10000
+	max := 99999
+	return rand.Intn(max-min+1) + min
 }

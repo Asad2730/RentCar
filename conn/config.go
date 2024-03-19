@@ -23,5 +23,7 @@ func Connect() {
 	db.AutoMigrate(&models.BookingRequest{}, &models.BookingClosing{},
 		&models.BookingFeedBack{}, &models.BookingDetail{})
 
+	db.AutoMigrate(&models.Customer{}, &models.Otp{})
+
 	Db = db
 }

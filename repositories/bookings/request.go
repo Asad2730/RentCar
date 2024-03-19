@@ -61,9 +61,9 @@ func GetBookingRequestByBoId(id int32) ([]*models.BookingRequest, error) {
 	return body, nil
 }
 
-func GetBookingRequestByUserId(id int32) ([]*models.BookingRequest, error) {
+func GetBookingRequestByCustomerId(id int32) ([]*models.BookingRequest, error) {
 
-	body, err := getBookingRequest(&models.BookingRequest{UserId: id, DeletedAt: ""})
+	body, err := getBookingRequest(&models.BookingRequest{CustomerId: id, DeletedAt: ""})
 	if err != nil {
 		return nil, err
 	}

@@ -133,3 +133,12 @@ func GetBookings(c *gin.Context) {
 	}
 	c.ProtoBuf(200, res)
 }
+
+func GetBookingByCustomerId(c *gin.Context) {
+	res, err := bookings.GetBookingByCustomerId(c)
+	if err != nil {
+		c.ProtoBuf(500, response.GetResponse(err.Error()))
+		return
+	}
+	c.ProtoBuf(200, res)
+}

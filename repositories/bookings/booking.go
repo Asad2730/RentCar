@@ -51,13 +51,13 @@ func GetBookingByBoId(c *gin.Context) (*models.BookingList, error) {
 
 }
 
-func GetBookingByUserId(c *gin.Context) (*models.BookingList, error) {
-	id, err := repositories.ConvertToInt32(c.Param("userId"))
+func GetBookingByCustomerId(c *gin.Context) (*models.BookingList, error) {
+	id, err := repositories.ConvertToInt32(c.Param("customerId"))
 
 	if err != nil {
 		return nil, err
 	}
-	bookingRequests, err := GetBookingRequestByUserId(id)
+	bookingRequests, err := GetBookingRequestByCustomerId(id)
 
 	if err != nil {
 		return nil, err
